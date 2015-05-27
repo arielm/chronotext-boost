@@ -41,11 +41,11 @@ STAGE_DIR="stage/armeabi-v7a"
 GCC_VERSION=4.9
 ANDROID_PLATFORM=android-16
 
-TOOLCHAIN_PATH=${NDK_ROOT}/toolchains/arm-linux-androideabi-${GCC_VERSION}/prebuilt/${HOST_OS}-${HOST_ARCH}
+TOOLCHAIN_BIN=${NDK_ROOT}/toolchains/arm-linux-androideabi-${GCC_VERSION}/prebuilt/${HOST_OS}-${HOST_ARCH}/bin
 
 # ---
 
-export PATH=${TOOLCHAIN_PATH}/bin:${PATH}
+export PATH=${TOOLCHAIN_BIN}:${PATH}
 export NDK_ROOT
 export GCC_VERSION
 export ANDROID_PLATFORM
