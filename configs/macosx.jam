@@ -1,3 +1,6 @@
+#
+# REFERENCE: http://libcinder.org/docs/dev/_cinder_boost.html
+#
 
 using clang : osx
 :

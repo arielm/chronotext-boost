@@ -1,3 +1,10 @@
+#
+# REFERENCES:
+#
+# 1) https://github.com/MysticTreeGames/Boost-for-Android
+# 2) https://github.com/crystax/android-platform-ndk/blob/master/build/tools/build-boost.sh
+# 3) Android NDK: Beginner's Guide - Second Edition | By Sylvain Ratabouil | Page 409
+#
 
 using gcc : android
 :
