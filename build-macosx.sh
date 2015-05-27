@@ -23,7 +23,7 @@ if [ $? != 0 ]; then
   exit 1
 fi
 
-cat ../config-macosx.jam >> project-config.jam
+cat ../configs/macosx.jam >> project-config.jam
 
 # ---
 

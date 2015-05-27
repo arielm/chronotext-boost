@@ -23,7 +23,7 @@ if [ $? != 0 ]; then
   exit 1
 fi
 
-cat ../config-ios.jam >> project-config.jam
+cat ../configs/ios.jam >> project-config.jam
 
 # ---
 

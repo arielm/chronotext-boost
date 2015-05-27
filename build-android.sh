@@ -31,7 +31,7 @@ dump "ERROR: boostrap FAILED"
 exit 1
 fi
 
-cat ../config-android.jam >> project-config.jam
+cat ../configs/android.jam >> project-config.jam
 
 # ---
 
