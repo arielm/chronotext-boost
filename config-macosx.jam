@@ -1,0 +1,5 @@
+
+using clang : osx
+:
+xcrun clang -arch i386 -arch x86_64 -stdlib=libc++ -std=c++11 -mmacosx-version-min=10.7 -fvisibility-inlines-hidden
+;
