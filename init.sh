@@ -10,14 +10,11 @@ BOOST_VER1=1
 BOOST_VER2=53
 BOOST_VER3=0
 
-BOOST_DOWNLOAD_LINK="http://downloads.sourceforge.net/project/boost/boost/$BOOST_VER1.$BOOST_VER2.$BOOST_VER3/boost_${BOOST_VER1}_${BOOST_VER2}_${BOOST_VER3}.tar.bz2"
-BOOST_TAR="boost_${BOOST_VER1}_${BOOST_VER2}_${BOOST_VER3}.tar.bz2"
-BOOST_DIR="boost_${BOOST_VER1}_${BOOST_VER2}_${BOOST_VER3}"
+BOOST_VER="${BOOST_VER1}_${BOOST_VER2}_${BOOST_VER3}"
+BOOST_TAR="boost_${BOOST_VER}.tar.bz2"
+BOOST_SRC="http://downloads.sourceforge.net/project/boost/boost/${BOOST_VER1}.${BOOST_VER2}.${BOOST_VER3}/${BOOST_TAR}"
 
-# -------
-# CLEANUP
-# -------
-
+BOOST_DIR="boost_${BOOST_VER}"
 rm -rf $BOOST_DIR
 
 # -----------
@@ -25,14 +22,12 @@ rm -rf $BOOST_DIR
 # -----------
 
 if [ ! -f $BOOST_TAR ]; then
-  echo "Downloading boost ${BOOST_VER1}.${BOOST_VER2}.${BOOST_VER3}..."
-  prepare_download
-  download_file $BOOST_DOWNLOAD_LINK $BOOST_TAR
+  echo "Downloading ${BOOST_SRC}"
+  curl -L -O $BOOST_SRC
 fi
 
 if [ ! -f $BOOST_TAR ]; then
   echo "Downloading failed!"
-  echo "Please download archive and save it in this directory as $BOOST_TAR"
   exit 1
 fi
 
@@ -48,11 +43,15 @@ else
   tar xjf $BOOST_TAR
 fi
 
+if [ ! -d $BOOST_DIR ]; then
+  echo "Unpacking failed!"
+  exit 1
+fi
+
 # --------
 # PATCHING
 # --------
 
-BOOST_VER=${BOOST_VER1}_${BOOST_VER2}_${BOOST_VER3}
 PATCH_BOOST_DIR=$PROGDIR/patches/boost-${BOOST_VER}
 
 echo "Patching..."
