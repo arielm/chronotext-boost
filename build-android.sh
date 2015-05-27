@@ -1,5 +1,7 @@
 #!/bin/sh
 
+. `dirname $0`/build-common.sh
+
 if [ -z $NDK_ROOT ]; then
   echo "NDK_ROOT MUST BE DEFINED!"
   echo "e.g. export NDK_ROOT=$HOME/android-ndk"
@@ -31,8 +33,6 @@ fi
 
 cat ../config-android.jam >> project-config.jam
 
-CPUS=$(sysctl hw.ncpu | awk '{print $2}')
-
 # ---
 
 LIBRARIES=" --with-system --with-filesystem --with-iostreams"
@@ -41,7 +41,7 @@ STAGE_DIR="stage/armeabi-v7a"
 GCC_VERSION=4.9
 ANDROID_PLATFORM=android-16
 
-TOOLCHAIN_PATH=${NDK_ROOT}/toolchains/arm-linux-androideabi-${GCC_VERSION}/prebuilt/darwin-x86_64
+TOOLCHAIN_PATH=${NDK_ROOT}/toolchains/arm-linux-androideabi-${GCC_VERSION}/prebuilt/${HOST_OS}-${HOST_ARCH}
 
 # ---
 
@@ -53,7 +53,7 @@ export NO_BZIP2=1
 
 rm -rf $STAGE_DIR
 
-./b2 -a -j$CPUS              \
+./b2 -a -j${HOST_NUM_CPUS}   \
 target-os=linux              \
 toolset=gcc-android          \
 link=static                  \

@@ -1,5 +1,7 @@
 #!/bin/sh
 
+. `dirname $0`/build-common.sh
+
 BOOST_DIR="boost_1_53_0"
 
 if [ ! -d $BOOST_DIR ]; then
@@ -23,8 +25,6 @@ fi
 
 cat ../config-macosx.jam >> project-config.jam
 
-CPUS=$(sysctl hw.ncpu | awk '{print $2}')
-
 # ---
 
 LIBRARIES="--with-system --with-filesystem --with-iostreams"
@@ -34,7 +34,7 @@ STAGE_DIR="stage/macosx"
 
 rm -rf $STAGE_DIR
 
-./b2 -a -j$CPUS              \
+./b2 -a -j${HOST_NUM_CPUS}   \
 toolset=clang-osx            \
 link=static                  \
 variant=release              \
