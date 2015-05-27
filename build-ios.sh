@@ -2,7 +2,7 @@
 
 . `dirname $0`/build-common.sh
 
-BOOST_DIR="boost_1_53_0"
+BOOST_DIR="boost_1_55_0"
 
 if [ ! -d $BOOST_DIR ]; then
   echo "ERROR: boost DIRECTORY NOT FOUND"

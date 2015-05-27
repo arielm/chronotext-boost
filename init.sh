@@ -7,7 +7,7 @@
 . `dirname $0`/build-common.sh
 
 BOOST_VER1=1
-BOOST_VER2=53
+BOOST_VER2=55
 BOOST_VER3=0
 
 BOOST_VER="${BOOST_VER1}_${BOOST_VER2}_${BOOST_VER3}"
