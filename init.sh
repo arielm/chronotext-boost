@@ -27,13 +27,13 @@ rm -rf $BOOST_DIR
 if [ ! -f $BOOST_TAR ]; then
   echo "Downloading boost ${BOOST_VER1}.${BOOST_VER2}.${BOOST_VER3}..."
   prepare_download
-  download_file $BOOST_DOWNLOAD_LINK $PROGDIR/$BOOST_TAR
+  download_file $BOOST_DOWNLOAD_LINK $BOOST_TAR
 fi
 
-if [ ! -f $PROGDIR/$BOOST_TAR ]; then
-	echo "Downloading failed!"
+if [ ! -f $BOOST_TAR ]; then
+  echo "Downloading failed!"
   echo "Please download boost ${BOOST_VER1}.${BOOST_VER2}.${BOOST_VER3} and save it in this directory as $BOOST_TAR"
-	exit 1
+  exit 1
 fi
 
 # ---------
@@ -41,7 +41,7 @@ fi
 # ---------
 
 echo "Unpacking..."
-tar xjf $PROGDIR/$BOOST_TAR
+tar xjf $BOOST_TAR
 
 # --------
 # PATCHING
