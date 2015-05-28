@@ -1,4 +1,6 @@
 boost
+include
+lib
 *.bz2
 *.zip
 *.gz
