@@ -1,8 +1,11 @@
 #!/bin/sh
 
+#
+# FOR $HOST_NUM_CPUS
+#
 . `dirname $0`/build-common.sh
 
-BOOST_DIR="boost_1_55_0"
+BOOST_DIR="boost"
 
 if [ ! -d $BOOST_DIR ]; then
   echo "ERROR: boost DIRECTORY NOT FOUND"
@@ -15,11 +18,12 @@ cd $BOOST_DIR
 rm bjam
 rm b2
 rm project-config.jam
+rm -rf bin.v2
 
 ./bootstrap.sh 2>&1
 
 if [ $? != 0 ]; then
-  dump "ERROR: boostrap FAILED"
+  echo "ERROR: boostrap FAILED"
   exit 1
 fi
 
@@ -36,7 +40,7 @@ STAGE_DIR_2="stage/ios-sim"
 
 rm -rf $STAGE_DIR_1
 
-./b2 -a -j${HOST_NUM_CPUS}   \
+./b2 -q -j${HOST_NUM_CPUS}   \
 toolset=clang-ios            \
 link=static                  \
 variant=release              \
@@ -48,7 +52,7 @@ stage                        \
 
 rm -rf $STAGE_DIR_2
 
-./b2 -a -j${HOST_NUM_CPUS}   \
+./b2 -q -j${HOST_NUM_CPUS}   \
 toolset=clang-ios_sim        \
 link=static                  \
 variant=release              \
