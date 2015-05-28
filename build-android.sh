@@ -1,5 +1,8 @@
 #!/bin/sh
 
+#
+# FOR $HOST_NUM_CPUS, $HOST_OS, $HOST_ARCH
+#
 . `dirname $0`/build-common.sh
 
 if [ -z $NDK_ROOT ]; then
@@ -10,7 +13,7 @@ fi
 
 # ---
 
-BOOST_DIR="boost_1_53_0"
+BOOST_DIR="boost"
 
 if [ ! -d $BOOST_DIR ]; then
   echo "ERROR: boost DIRECTORY NOT FOUND"
@@ -23,12 +26,13 @@ cd $BOOST_DIR
 rm bjam
 rm b2
 rm project-config.jam
+rm -rf bin.v2
 
 ./bootstrap.sh 2>&1
 
 if [ $? != 0 ]; then
-dump "ERROR: boostrap FAILED"
-exit 1
+  echo "ERROR: boostrap FAILED"
+  exit 1
 fi
 
 cat ../configs/android.jam >> project-config.jam
@@ -36,7 +40,8 @@ cat ../configs/android.jam >> project-config.jam
 # ---
 
 LIBRARIES=" --with-system --with-filesystem --with-iostreams"
-STAGE_DIR="stage/armeabi-v7a"
+
+LIB_DIR="../lib/android/armeabi-v7a"
 
 GCC_VERSION=4.9
 ANDROID_PLATFORM=android-16
@@ -51,17 +56,19 @@ export GCC_VERSION
 export ANDROID_PLATFORM
 export NO_BZIP2=1
 
-rm -rf $STAGE_DIR
-
-./b2 -a -j${HOST_NUM_CPUS}   \
+./b2 -q -j${HOST_NUM_CPUS}   \
 target-os=linux              \
 toolset=gcc-android          \
 link=static                  \
 variant=release              \
 $LIBRARIES                   \
 stage                        \
---stagedir=$STAGE_DIR        \
+
+rm -rf $LIB_DIR
+mkdir -p $LIB_DIR
+mv stage/lib/*.a $LIB_DIR
 
 # ---
 
-echo "\nDONE! BUILT LIBS ARE IN ${BOOST_DIR}/${STAGE_DIR}/lib"
+echo "\nDONE!"
+ls -1 ${LIB_DIR}/*.a

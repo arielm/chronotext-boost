@@ -1,4 +1,10 @@
-boost_*
+boost
+include
+lib
+*.bz2
+*.zip
+*.gz
+
 build
 *~
 logs

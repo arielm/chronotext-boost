@@ -14,7 +14,7 @@ BOOST_VER="${BOOST_VER1}_${BOOST_VER2}_${BOOST_VER3}"
 BOOST_TAR="boost_${BOOST_VER}.tar.bz2"
 BOOST_SRC="http://downloads.sourceforge.net/project/boost/boost/${BOOST_VER1}.${BOOST_VER2}.${BOOST_VER3}/${BOOST_TAR}"
 
-BOOST_DIR="boost_${BOOST_VER}"
+BOOST_DIR="boost"
 rm -rf $BOOST_DIR
 
 # -----------
@@ -38,15 +38,20 @@ fi
 echo "Unpacking..."
 
 if [ $(which pv) ]; then
-  pv $BOOST_TAR | tar xjf - -C $PROGDIR
+  pv $BOOST_TAR | tar xjf -
 else
   tar xjf $BOOST_TAR
 fi
 
-if [ ! -d $BOOST_DIR ]; then
+BOOST_TMP_DIR="boost_${BOOST_VER}"
+
+if [ ! -d $BOOST_TMP_DIR ]; then
   echo "Unpacking failed!"
   exit 1
 fi
+
+mv ${BOOST_TMP_DIR} ${BOOST_DIR}
+ln -s ${BOOST_DIR} include
 
 # --------
 # PATCHING
