@@ -33,12 +33,10 @@ cat ../configs/ios.jam >> project-config.jam
 
 LIBRARIES=" --with-system --with-filesystem --with-iostreams"
 
-STAGE_DIR_1="stage/ios"
-STAGE_DIR_2="stage/ios-sim"
+LIB_DIR_1="../lib/ios"
+LIB_DIR_2="../lib/ios-sim"
 
 # ---
-
-rm -rf $STAGE_DIR_1
 
 ./b2 -q -j${HOST_NUM_CPUS}   \
 toolset=clang-ios            \
@@ -46,11 +44,12 @@ link=static                  \
 variant=release              \
 $LIBRARIES                   \
 stage                        \
---stagedir=$STAGE_DIR_1      \
+
+rm -rf $LIB_DIR_1
+mkdir -p $LIB_DIR_1
+mv stage/lib/*.a $LIB_DIR_1
 
 # ---
-
-rm -rf $STAGE_DIR_2
 
 ./b2 -q -j${HOST_NUM_CPUS}   \
 toolset=clang-ios_sim        \
@@ -58,10 +57,13 @@ link=static                  \
 variant=release              \
 $LIBRARIES                   \
 stage                        \
---stagedir=$STAGE_DIR_2      \
+
+rm -rf $LIB_DIR_2
+mkdir -p $LIB_DIR_2
+mv stage/lib/*.a $LIB_DIR_2
 
 # ---
 
-echo "\nDONE! BUILT LIBS ARE IN:"
-echo "  ${BOOST_DIR}/${STAGE_DIR_1}/lib"
-echo "  ${BOOST_DIR}/${STAGE_DIR_2}/lib"
+echo "\nDONE!"
+ls -1 ${LIB_DIR_1}/*.a
+ls -1 ${LIB_DIR_2}/*.a

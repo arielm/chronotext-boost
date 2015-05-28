@@ -45,3 +45,4 @@ if [ ! -d $BOOST_TMP_DIR ]; then
 fi
 
 mv ${BOOST_TMP_DIR} ${BOOST_DIR}
+ln -s ${BOOST_DIR} include

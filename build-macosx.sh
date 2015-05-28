@@ -33,11 +33,9 @@ cat ../configs/macosx.jam >> project-config.jam
 
 LIBRARIES="--with-system --with-filesystem --with-iostreams"
 
-STAGE_DIR="stage/macosx"
+LIB_DIR="../lib/macosx"
 
 # ---
-
-rm -rf $STAGE_DIR
 
 ./b2 -q -j${HOST_NUM_CPUS}   \
 toolset=clang-osx            \
@@ -45,8 +43,12 @@ link=static                  \
 variant=release              \
 $LIBRARIES                   \
 stage                        \
---stagedir=$STAGE_DIR        \
+
+rm -rf $LIB_DIR
+mkdir -p $LIB_DIR
+mv stage/lib/*.a $LIB_DIR
 
 # ---
 
-echo "\nDONE! BUILT LIBS ARE IN ${BOOST_DIR}/${STAGE_DIR}/lib"
+echo "\nDONE!"
+ls -1 ${LIB_DIR}/*.a
