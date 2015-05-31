@@ -5,8 +5,8 @@ BOOST_VER2=58
 BOOST_VER3=0
 
 BOOST_VER="${BOOST_VER1}_${BOOST_VER2}_${BOOST_VER3}"
-BOOST_TAR="master.zip"
-BOOST_SRC="https://github.com/arielm/android-vendor-boost-${BOOST_VER1}-${BOOST_VER2}-${BOOST_VER3}/archive/${BOOST_TAR}"
+BOOST_ZIP="master.zip"
+BOOST_SRC="https://github.com/arielm/android-vendor-boost-${BOOST_VER1}-${BOOST_VER2}-${BOOST_VER3}/archive/${BOOST_ZIP}"
 
 BOOST_DIR="boost"
 rm -rf $BOOST_DIR
@@ -15,12 +15,12 @@ rm -rf $BOOST_DIR
 # DOWNLOADING
 # -----------
 
-if [ ! -f $BOOST_TAR ]; then
+if [ ! -f $BOOST_ZIP ]; then
   echo "Downloading ${BOOST_SRC}"
   curl -L -O $BOOST_SRC
 fi
 
-if [ ! -f $BOOST_TAR ]; then
+if [ ! -f $BOOST_ZIP ]; then
   echo "Downloading failed!"
   exit 1
 fi
@@ -30,12 +30,7 @@ fi
 # ---------
 
 echo "Unpacking..."
-
-if [ $(which pv) ]; then
-  pv $BOOST_TAR | tar xjf -
-else
-  tar xjf $BOOST_TAR
-fi
+unzip $BOOST_ZIP
 
 BOOST_TMP_DIR="android-vendor-boost-${BOOST_VER1}-${BOOST_VER2}-${BOOST_VER3}-master"
 
