@@ -9,7 +9,7 @@ BOOST_DIR="boost"
 
 if [ ! -d $BOOST_DIR ]; then
   echo "ERROR: boost DIRECTORY NOT FOUND"
-  echo "DID YOU EXECUTE init.sh?"
+  echo "DID YOU EXECUTE setup.sh?"
   exit 1
 fi
 

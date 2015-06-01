@@ -5,9 +5,8 @@
 #
 . `dirname $0`/build-common.sh
 
-if [ -z $NDK_ROOT ]; then
-  echo "NDK_ROOT MUST BE DEFINED!"
-  echo "e.g. export NDK_ROOT=$HOME/android-ndk"
+if [ -z $NDK_PATH ]; then
+  echo "NDK_PATH MUST BE DEFINED!"
   exit -1  
 fi
 
@@ -17,7 +16,7 @@ BOOST_DIR="boost"
 
 if [ ! -d $BOOST_DIR ]; then
   echo "ERROR: boost DIRECTORY NOT FOUND"
-  echo "DID YOU EXECUTE init.sh?"
+  echo "DID YOU EXECUTE setup.sh?"
   exit 1
 fi
 
@@ -46,12 +45,12 @@ LIB_DIR="../lib/android/armeabi-v7a"
 GCC_VERSION=4.9
 ANDROID_PLATFORM=android-16
 
-TOOLCHAIN_BIN=${NDK_ROOT}/toolchains/arm-linux-androideabi-${GCC_VERSION}/prebuilt/${HOST_OS}-${HOST_ARCH}/bin
+TOOLCHAIN_BIN=${NDK_PATH}/toolchains/arm-linux-androideabi-${GCC_VERSION}/prebuilt/${HOST_OS}-${HOST_ARCH}/bin
 
 # ---
 
 export PATH=${TOOLCHAIN_BIN}:${PATH}
-export NDK_ROOT
+export NDK_PATH
 export GCC_VERSION
 export ANDROID_PLATFORM
 export NO_BZIP2=1
