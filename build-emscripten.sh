@@ -5,9 +5,8 @@
 #
 . `dirname $0`/build-common.sh
 
-if [ -z $EMSCRIPTEN_BIN ]; then
-  echo "EMSCRIPTEN_BIN MUST BE DEFINED!"
-  echo "IT SHOULD POINT TO A FOLDER CONTAINING emcc, emar, emranlib AND emlink"
+if [ -z $EMSCRIPTEN_PATH ]; then
+  echo "EMSCRIPTEN_PATH MUST BE DEFINED!"
   exit -1  
 fi
 
@@ -17,7 +16,7 @@ BOOST_DIR="boost"
 
 if [ ! -d $BOOST_DIR ]; then
   echo "ERROR: boost DIRECTORY NOT FOUND"
-  echo "DID YOU EXECUTE init.sh?"
+  echo "DID YOU EXECUTE setup.sh?"
   exit 1
 fi
 
@@ -45,7 +44,7 @@ LIB_DIR="../lib/emscripten"
 
 # ---
 
-export PATH=${EMSCRIPTEN_BIN}:${PATH}
+export PATH=${EMSCRIPTEN_PATH}:${PATH}
 export NO_BZIP2=1
 
 ./b2 -q -j${HOST_NUM_CPUS}   \
