@@ -1,9 +1,7 @@
 #!/bin/sh
 
-rm -rf boost
+rm -rf dist
 rm -rf lib
 rm include
 
-rm *.bz2
 rm *.zip
-rm *.gz

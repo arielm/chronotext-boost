@@ -1,13 +1,7 @@
-boost
+dist/
+lib/
 include
-lib
+
 *.bz2
 *.zip
 *.gz
-
-build
-*~
-logs
-build.log
-*.swp
-*.vim
