@@ -15,7 +15,7 @@ rm -rf dist
 # -----------
 
 if [ ! -f $BOOST_ZIP ]; then
-  echo "DOWNLOADING ${BOOST_SRC}"
+  echo "DOWNLOADING $BOOST_SRC"
   curl -L -O $BOOST_SRC
 fi
 
@@ -28,7 +28,7 @@ fi
 # UNPACKING
 # ---------
 
-echo "UNPACKING ${$BOOST_ZIP}"
+echo "UNPACKING $BOOST_ZIP"
 unzip $BOOST_ZIP
 
 if [ ! -d $BOOST_DIR ]; then
@@ -36,7 +36,7 @@ if [ ! -d $BOOST_DIR ]; then
   exit 1
 fi
 
-mv ${BOOST_DIR} dist
+mv $BOOST_DIR dist
 ln -s dist include
 
 echo "DONE!"

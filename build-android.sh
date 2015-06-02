@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ -z $NDK_PATH ]; then
+if [ -z "$NDK_PATH" ]; then
   echo "NDK_PATH MUST BE DEFINED!"
   exit -1  
 fi
@@ -17,11 +17,11 @@ HOST_NUM_CPUS=$(sysctl hw.ncpu | awk '{print $2}')
 
 # ---
 
-GCC_VERSION="4.9"
-ANDROID_ABI="armeabi-v7a"
-ANDROID_PLATFORM="android-16"
+GCC_VERSION=4.9
+ANDROID_ABI=armeabi-v7a
+ANDROID_PLATFORM=android-16
 
-TOOLCHAIN_PATH=${NDK_PATH}/toolchains/arm-linux-androideabi-${GCC_VERSION}/prebuilt/${HOST_OS}-${HOST_ARCH}
+TOOLCHAIN_PATH="$NDK_PATH/toolchains/arm-linux-androideabi-$GCC_VERSION/prebuilt/$HOST_OS-$HOST_ARCH"
 
 LIBRARIES="--with-system --with-filesystem --with-iostreams"
 
@@ -45,21 +45,21 @@ cat ../configs/android.jam >> project-config.jam
 
 # ---
 
-LIB_DIR="../lib/android/${ANDROID_ABI}"
+LIB_DIR="../lib/android/$ANDROID_ABI"
 
-export PATH=${TOOLCHAIN_PATH}/bin:${PATH}
+export PATH="$TOOLCHAIN_PATH/bin":"$PATH"
 export NDK_PATH
 export GCC_VERSION
 export ANDROID_PLATFORM
 export NO_BZIP2=1
 
-./b2 -q -j${HOST_NUM_CPUS}     \
-  target-os=android            \
-  toolset=gcc-android          \
-  link=static                  \
-  variant=release              \
-  $LIBRARIES                   \
-  stage                        \
+./b2 -q -j$HOST_NUM_CPUS  \
+  target-os=android       \
+  toolset=gcc-android     \
+  link=static             \
+  variant=release         \
+  $LIBRARIES              \
+  stage                   \
   2>&1
 
 if [ $? != 0 ]; then
@@ -74,4 +74,4 @@ mkdir -p $LIB_DIR
 mv stage/lib/*.a $LIB_DIR
 
 echo "DONE!"
-ls -1 ${LIB_DIR}/*.a
+ls -1 $LIB_DIR/*.a

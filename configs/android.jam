@@ -10,9 +10,9 @@ using gcc : android
 :
 arm-linux-androideabi-g++
 :
-<compileflags>-I${NDK_PATH}/platforms/${ANDROID_PLATFORM}/arch-arm/usr/include
-<compileflags>-I${NDK_PATH}/sources/cxx-stl/gnu-libstdc++/${GCC_VERSION}/include
-<compileflags>-I${NDK_PATH}/sources/cxx-stl/gnu-libstdc++/${GCC_VERSION}/libs/armeabi/include
+<compileflags>-I"$NDK_PATH/platforms/$ANDROID_PLATFORM/arch-arm/usr/include"
+<compileflags>-I"$NDK_PATH/sources/cxx-stl/gnu-libstdc++/$GCC_VERSION/include"
+<compileflags>-I"$NDK_PATH/sources/cxx-stl/gnu-libstdc++/$GCC_VERSION/libs/armeabi/include"
 
 <compileflags>-fvisibility=hidden
 <compileflags>-fvisibility-inlines-hidden

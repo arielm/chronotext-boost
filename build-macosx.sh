@@ -34,12 +34,12 @@ cat ../configs/macosx.jam >> project-config.jam
 
 LIB_DIR="../lib/macosx"
 
-./b2 -q -j${HOST_NUM_CPUS}     \
-  toolset=clang-osx            \
-  link=static                  \
-  variant=release              \
-  $LIBRARIES                   \
-  stage                        \
+./b2 -q -j$HOST_NUM_CPUS  \
+  toolset=clang-macosx    \
+  link=static             \
+  variant=release         \
+  $LIBRARIES              \
+  stage                   \
   2>&1
 
 if [ $? != 0 ]; then
@@ -54,4 +54,4 @@ mkdir -p $LIB_DIR
 mv stage/lib/*.a $LIB_DIR
 
 echo "DONE!"
-ls -1 ${LIB_DIR}/*.a
+ls -1 $LIB_DIR/*.a

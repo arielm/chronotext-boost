@@ -36,12 +36,12 @@ cat ../configs/ios.jam >> project-config.jam
 
 LIB_DIR_1="../lib/ios"
 
-./b2 -q -j${HOST_NUM_CPUS}     \
-  toolset=clang-ios            \
-  link=static                  \
-  variant=release              \
-  $LIBRARIES                   \
-  stage                        \
+./b2 -q -j$HOST_NUM_CPUS        \
+  toolset=clang-iphoneos        \
+  link=static                   \
+  variant=release               \
+  $LIBRARIES                    \
+  stage                         \
   2>&1
 
 if [ $? != 0 ]; then
@@ -57,12 +57,12 @@ mv stage/lib/*.a $LIB_DIR_1
 
 LIB_DIR_2="../lib/ios-sim"
 
-./b2 -q -j${HOST_NUM_CPUS}     \
-  toolset=clang-ios_sim        \
-  link=static                  \
-  variant=release              \
-  $LIBRARIES                   \
-  stage                        \
+./b2 -q -j$HOST_NUM_CPUS        \
+  toolset=clang-iphonesimulator \
+  link=static                   \
+  variant=release               \
+  $LIBRARIES                    \
+  stage                         \
   2>&1
 
 if [ $? != 0 ]; then
@@ -77,5 +77,5 @@ mv stage/lib/*.a $LIB_DIR_2
 # ---
 
 echo "DONE!"
-ls -1 ${LIB_DIR_1}/*.a
-ls -1 ${LIB_DIR_2}/*.a
+ls -1 $LIB_DIR_1/*.a
+ls -1 $LIB_DIR_2/*.a
