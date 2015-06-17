@@ -6,19 +6,20 @@ if [ ! -d dist ]; then
   exit 1
 fi
 
-HOST_NUM_CPUS=$(sysctl hw.ncpu | awk '{print $2}')
+cd dist
 
 # ---
 
 LIBRARIES="--with-system --with-filesystem --with-iostreams"
 
-# ---
+LIB_DIR="../lib/osx"
 
-cd dist
+# ---
 
 rm bjam
 rm b2
 rm project-config.jam
+rm boostsrap.log
 rm -rf bin.v2
 
 ./bootstrap.sh 2>&1
@@ -32,7 +33,7 @@ cat ../configs/osx.jam >> project-config.jam
 
 # ---
 
-LIB_DIR="../lib/osx"
+HOST_NUM_CPUS=$(sysctl hw.ncpu | awk '{print $2}')
 
 ./b2 -q -j$HOST_NUM_CPUS  \
   toolset=clang-macosx    \
@@ -47,11 +48,6 @@ if [ $? != 0 ]; then
   exit 1
 fi
 
-# ---
-
 rm -rf $LIB_DIR
 mkdir -p $LIB_DIR
 mv stage/lib/*.a $LIB_DIR
-
-echo "DONE!"
-ls -1 $LIB_DIR/*.a

@@ -11,9 +11,7 @@ if [ ! -d dist ]; then
   exit 1
 fi
 
-HOST_OS=$(uname -s | tr "[:upper:]" "[:lower:]")
-HOST_ARCH=$(uname -m)
-HOST_NUM_CPUS=$(sysctl hw.ncpu | awk '{print $2}')
+cd dist
 
 # ---
 
@@ -21,17 +19,16 @@ GCC_VERSION=4.9
 ANDROID_ABI=armeabi-v7a
 ANDROID_PLATFORM=android-16
 
-TOOLCHAIN_PATH="$NDK_ROOT/toolchains/arm-linux-androideabi-$GCC_VERSION/prebuilt/$HOST_OS-$HOST_ARCH"
-
 LIBRARIES="--with-system --with-filesystem --with-iostreams"
 
-# ---
+LIB_DIR="../lib/android"
 
-cd dist
+# ---
 
 rm bjam
 rm b2
 rm project-config.jam
+rm boostsrap.log
 rm -rf bin.v2
 
 ./bootstrap.sh 2>&1
@@ -45,7 +42,11 @@ cat ../configs/android.jam >> project-config.jam
 
 # ---
 
-LIB_DIR="../lib/android"
+HOST_NUM_CPUS=$(sysctl hw.ncpu | awk '{print $2}')
+HOST_OS=$(uname -s | tr "[:upper:]" "[:lower:]")
+HOST_ARCH=$(uname -m)
+
+TOOLCHAIN_PATH="$NDK_ROOT/toolchains/arm-linux-androideabi-$GCC_VERSION/prebuilt/$HOST_OS-$HOST_ARCH"
 
 export PATH="$TOOLCHAIN_PATH/bin":"$PATH"
 export NDK_ROOT
@@ -67,11 +68,6 @@ if [ $? != 0 ]; then
   exit 1
 fi
 
-# ---
-
 rm -rf $LIB_DIR
 mkdir -p $LIB_DIR
 mv stage/lib/*.a $LIB_DIR
-
-echo "DONE!"
-ls -1 $LIB_DIR/*.a

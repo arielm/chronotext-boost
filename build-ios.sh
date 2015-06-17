@@ -6,19 +6,21 @@ if [ ! -d dist ]; then
   exit 1
 fi
 
-HOST_NUM_CPUS=$(sysctl hw.ncpu | awk '{print $2}')
+cd dist
 
 # ---
 
 LIBRARIES="--with-system --with-filesystem --with-iostreams"
 
-# ---
+LIB_DIR_1="../lib/ios"
+LIB_DIR_2="../lib/ios-sim"
 
-cd dist
+# ---
 
 rm bjam
 rm b2
 rm project-config.jam
+rm boostsrap.log
 rm -rf bin.v2
 
 ./bootstrap.sh 2>&1
@@ -32,9 +34,9 @@ cat ../configs/ios.jam >> project-config.jam
 
 # ---
 
-### IPHONE-OS ###
+HOST_NUM_CPUS=$(sysctl hw.ncpu | awk '{print $2}')
 
-LIB_DIR_1="../lib/ios"
+# --- IPHONE-OS ---
 
 ./b2 -q -j$HOST_NUM_CPUS        \
   toolset=clang-iphoneos        \
@@ -53,9 +55,7 @@ rm -rf $LIB_DIR_1
 mkdir -p $LIB_DIR_1
 mv stage/lib/*.a $LIB_DIR_1
 
-### IPHONE-SIMULATOR ###
-
-LIB_DIR_2="../lib/ios-sim"
+# --- IPHONE-SIMULATOR ---
 
 ./b2 -q -j$HOST_NUM_CPUS        \
   toolset=clang-iphonesimulator \
@@ -73,9 +73,3 @@ fi
 rm -rf $LIB_DIR_2
 mkdir -p $LIB_DIR_2
 mv stage/lib/*.a $LIB_DIR_2
-
-# ---
-
-echo "DONE!"
-ls -1 $LIB_DIR_1/*.a
-ls -1 $LIB_DIR_2/*.a

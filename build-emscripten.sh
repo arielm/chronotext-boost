@@ -11,19 +11,20 @@ if [ ! -d dist ]; then
   exit 1
 fi
 
-HOST_NUM_CPUS=$(sysctl hw.ncpu | awk '{print $2}')
+cd dist
 
 # ---
 
 LIBRARIES="--with-system --with-filesystem --with-iostreams"
 
-# ---
+LIB_DIR="../lib/emscripten"
 
-cd dist
+# ---
 
 rm bjam
 rm b2
 rm project-config.jam
+rm boostsrap.log
 rm -rf bin.v2
 
 ./bootstrap.sh 2>&1
@@ -37,7 +38,7 @@ cat ../configs/emscripten.jam >> project-config.jam
 
 # ---
 
-LIB_DIR="../lib/emscripten"
+HOST_NUM_CPUS=$(sysctl hw.ncpu | awk '{print $2}')
 
 export PATH="$EMSCRIPTEN_ROOT":"$PATH"
 export NO_BZIP2=1
@@ -55,11 +56,6 @@ if [ $? != 0 ]; then
   exit 1
 fi
 
-# ---
-
 rm -rf $LIB_DIR
 mkdir -p $LIB_DIR
 mv stage/lib/*.a $LIB_DIR
-
-echo "DONE!"
-ls -1 $LIB_DIR/*.a
