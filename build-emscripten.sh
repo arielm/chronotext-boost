@@ -1,7 +1,7 @@
 #!/bin/sh
 
-if [ -z "$EMSCRIPTEN_PATH" ]; then
-  echo "EMSCRIPTEN_PATH MUST BE DEFINED!"
+if [ -z "$EMSCRIPTEN_ROOT" ]; then
+  echo "EMSCRIPTEN_ROOT MUST BE DEFINED!"
   exit -1  
 fi
 
@@ -39,7 +39,7 @@ cat ../configs/emscripten.jam >> project-config.jam
 
 LIB_DIR="../lib/emscripten"
 
-export PATH="$EMSCRIPTEN_PATH":"$PATH"
+export PATH="$EMSCRIPTEN_ROOT":"$PATH"
 export NO_BZIP2=1
 
 ./b2 -q -j$HOST_NUM_CPUS    \

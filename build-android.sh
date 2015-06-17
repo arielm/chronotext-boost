@@ -1,7 +1,7 @@
 #!/bin/sh
 
-if [ -z "$NDK_PATH" ]; then
-  echo "NDK_PATH MUST BE DEFINED!"
+if [ -z "$NDK_ROOT" ]; then
+  echo "NDK_ROOT MUST BE DEFINED!"
   exit -1  
 fi
 
@@ -21,7 +21,7 @@ GCC_VERSION=4.9
 ANDROID_ABI=armeabi-v7a
 ANDROID_PLATFORM=android-16
 
-TOOLCHAIN_PATH="$NDK_PATH/toolchains/arm-linux-androideabi-$GCC_VERSION/prebuilt/$HOST_OS-$HOST_ARCH"
+TOOLCHAIN_PATH="$NDK_ROOT/toolchains/arm-linux-androideabi-$GCC_VERSION/prebuilt/$HOST_OS-$HOST_ARCH"
 
 LIBRARIES="--with-system --with-filesystem --with-iostreams"
 
@@ -45,10 +45,10 @@ cat ../configs/android.jam >> project-config.jam
 
 # ---
 
-LIB_DIR="../lib/android/$ANDROID_ABI"
+LIB_DIR="../lib/android"
 
 export PATH="$TOOLCHAIN_PATH/bin":"$PATH"
-export NDK_PATH
+export NDK_ROOT
 export GCC_VERSION
 export ANDROID_PLATFORM
 export NO_BZIP2=1

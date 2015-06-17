@@ -28,11 +28,11 @@ if [ $? != 0 ]; then
   exit 1
 fi
 
-cat ../configs/macosx.jam >> project-config.jam
+cat ../configs/osx.jam >> project-config.jam
 
 # ---
 
-LIB_DIR="../lib/macosx"
+LIB_DIR="../lib/osx"
 
 ./b2 -q -j$HOST_NUM_CPUS  \
   toolset=clang-macosx    \
