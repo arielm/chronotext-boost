@@ -1,3 +1,7 @@
+/*
+ * REFERENCE: https://github.com/arielm/chronotext-boost/wiki/Testing-instructions
+ */
+
 #include <iostream>
 
 #include <boost/algorithm/string.hpp>
@@ -9,7 +13,6 @@
 #include <boost/iostreams/stream.hpp>
 
 #include <gtest/gtest.h>
-#include <cxxabi.h> // XXX: PROBABLY NOT COMPATIBLE WITH VISUAL-STUDIO
 
 using namespace std;
 
@@ -78,13 +81,15 @@ TEST(TestBoost, TestFilteringStream)
     const std::type_info &ti = in.component_type(0);
 
     /*
-     * XXX: PROBABLY NOT COMPATIBLE WITH VISUAL-STUDIO
+     * FIXME: NOT COMPATIBLE WITH VISUAL-STUDIO
      */
     int status;
     char *realname = abi::__cxa_demangle(ti.name(), 0, 0, &status);
 
     ASSERT_EQ(0, status);
     ASSERT_STREQ("boost::iostreams::basic_array_source<char>", realname);
+    
+    free(realname);
 
     // ---
 
