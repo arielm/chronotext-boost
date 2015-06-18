@@ -2,7 +2,7 @@
  * REFERENCE: https://github.com/arielm/chronotext-boost/wiki/Testing-instructions
  */
 
-#include <iostream>
+#include "Utils.h"
 
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
@@ -12,7 +12,7 @@
 #include <boost/iostreams/filtering_stream.hpp>
 #include <boost/iostreams/stream.hpp>
 
-#include <gtest/gtest.h>
+#include <iostream>
 
 using namespace std;
 
@@ -78,18 +78,8 @@ TEST(TestBoost, TestFilteringStream)
 
     // ---
 
-    const std::type_info &ti = in.component_type(0);
-
-    /*
-     * FIXME: NOT COMPATIBLE WITH VISUAL-STUDIO
-     */
-    int status;
-    char *realname = abi::__cxa_demangle(ti.name(), 0, 0, &status);
-
-    ASSERT_EQ(0, status);
-    ASSERT_STREQ("boost::iostreams::basic_array_source<char>", realname);
-    
-    free(realname);
+#if defined(GTEST_HAS_RTTI)
+    ASSERT_EQ("boost::iostreams::basic_array_source<char>", demangle(in.component_type(0)));
 
     // ---
 
@@ -97,5 +87,6 @@ TEST(TestBoost, TestFilteringStream)
     auto seq = component->input_sequence();
 
     EXPECT_EQ(16, int(seq.second - seq.first));
+#endif // GTEST_HAS_RTTI
   }
 }
