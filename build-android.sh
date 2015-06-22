@@ -1,29 +1,32 @@
 #!/bin/sh
 
-if [ -z "$NDK_ROOT" ]; then
-  echo "NDK_ROOT MUST BE DEFINED!"
+if [ -z "$NDK_PATH" ]; then
+  echo "NDK_PATH MUST BE DEFINED!"
   exit -1  
 fi
 
-if [ ! -d dist ]; then
-  echo "ERROR: dist DIRECTORY NOT FOUND!"
-  echo "DID YOU EXECUTE setup.sh?"
+SRC_DIR="build"
+
+if [ ! -d "$SRC_DIR" ]; then
+  echo "$SRC_DIR DIRECTORY NOT FOUND!"
   exit 1
 fi
 
-cd dist
-
 # ---
-
-GCC_VERSION=4.9
-ANDROID_ABI=armeabi-v7a
-ANDROID_PLATFORM=android-16
 
 LIBRARIES="--with-system --with-filesystem --with-iostreams"
 
-LIB_DIR="../lib/android"
+GCC_VERSION=4.9
+ANDROID_ABI=armeabi-v7a
+ANDROID_API=android-16
 
 # ---
+
+PLATFORM="android"
+INSTALL_PATH="$(pwd)/dist/$PLATFORM"
+
+SRC_PATH="$(pwd)/$SRC_DIR"
+cd "$SRC_PATH"
 
 rm bjam
 rm b2
@@ -42,25 +45,28 @@ cat ../configs/android.jam >> project-config.jam
 
 # ---
 
+rm -rf "$INSTALL_PATH"
+
 HOST_NUM_CPUS=$(sysctl hw.ncpu | awk '{print $2}')
 HOST_OS=$(uname -s | tr "[:upper:]" "[:lower:]")
 HOST_ARCH=$(uname -m)
 
-TOOLCHAIN_PATH="$NDK_ROOT/toolchains/arm-linux-androideabi-$GCC_VERSION/prebuilt/$HOST_OS-$HOST_ARCH"
+TOOLCHAIN_PATH="$NDK_PATH/toolchains/arm-linux-androideabi-$GCC_VERSION/prebuilt/$HOST_OS-$HOST_ARCH"
 
 export PATH="$TOOLCHAIN_PATH/bin":"$PATH"
-export NDK_ROOT
+export NDK_PATH
 export GCC_VERSION
-export ANDROID_PLATFORM
+export ANDROID_API
 export NO_BZIP2=1
 
-./b2 -q -j$HOST_NUM_CPUS  \
-  target-os=android       \
-  toolset=gcc-android     \
-  link=static             \
-  variant=release         \
-  $LIBRARIES              \
-  stage                   \
+./b2 -q -j$HOST_NUM_CPUS     \
+  target-os=android          \
+  toolset=gcc-android        \
+  link=static                \
+  variant=release            \
+  $LIBRARIES                 \
+  stage                      \
+  --stagedir="$INSTALL_PATH" \
   2>&1
 
 if [ $? != 0 ]; then
@@ -68,6 +74,5 @@ if [ $? != 0 ]; then
   exit 1
 fi
 
-rm -rf $LIB_DIR
-mkdir -p $LIB_DIR
-mv stage/lib/*.a $LIB_DIR
+cd "$INSTALL_PATH"
+ln -s "$SRC_PATH" include

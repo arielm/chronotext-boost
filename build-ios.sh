@@ -1,21 +1,26 @@
 #!/bin/sh
 
-if [ ! -d dist ]; then
-  echo "ERROR: dist DIRECTORY NOT FOUND!"
-  echo "DID YOU EXECUTE setup.sh?"
+SRC_DIR="build"
+
+if [ ! -d "$SRC_DIR" ]; then
+  echo "$SRC_DIR DIRECTORY NOT FOUND!"
   exit 1
 fi
-
-cd dist
 
 # ---
 
 LIBRARIES="--with-system --with-filesystem --with-iostreams"
 
-LIB_DIR_1="../lib/ios"
-LIB_DIR_2="../lib/ios-sim"
-
 # ---
+
+PLATFORM_1="ios"
+INSTALL_PATH_1="$(pwd)/dist/$PLATFORM_1"
+
+PLATFORM_2="ios-sim"
+INSTALL_PATH_2="$(pwd)/dist/$PLATFORM_2"
+
+SRC_PATH="$(pwd)/$SRC_DIR"
+cd "$SRC_PATH"
 
 rm bjam
 rm b2
@@ -34,6 +39,9 @@ cat ../configs/ios.jam >> project-config.jam
 
 # ---
 
+rm -rf "$INSTALL_PATH_1"
+rm -rf "$INSTALL_PATH_2"
+
 HOST_NUM_CPUS=$(sysctl hw.ncpu | awk '{print $2}')
 
 # --- IPHONE-OS ---
@@ -44,16 +52,13 @@ HOST_NUM_CPUS=$(sysctl hw.ncpu | awk '{print $2}')
   variant=release               \
   $LIBRARIES                    \
   stage                         \
+  --stagedir="$INSTALL_PATH_1"  \
   2>&1
 
 if [ $? != 0 ]; then
   echo "ERROR: b2 FAILED!"
   exit 1
 fi
-
-rm -rf $LIB_DIR_1
-mkdir -p $LIB_DIR_1
-mv stage/lib/*.a $LIB_DIR_1
 
 # --- IPHONE-SIMULATOR ---
 
@@ -63,6 +68,7 @@ mv stage/lib/*.a $LIB_DIR_1
   variant=release               \
   $LIBRARIES                    \
   stage                         \
+  --stagedir="$INSTALL_PATH_2"  \
   2>&1
 
 if [ $? != 0 ]; then
@@ -70,6 +76,10 @@ if [ $? != 0 ]; then
   exit 1
 fi
 
-rm -rf $LIB_DIR_2
-mkdir -p $LIB_DIR_2
-mv stage/lib/*.a $LIB_DIR_2
+# ---
+
+cd "$INSTALL_PATH_1"
+ln -s "$SRC_PATH" include
+
+cd "$INSTALL_PATH_2"
+ln -s "$SRC_PATH" include

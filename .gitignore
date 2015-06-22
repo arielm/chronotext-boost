@@ -1,7 +1,3 @@
-dist/
-lib/
-include
-
 *.bz2
 *.zip
 *.gz
@@ -12,6 +8,7 @@ include
 *.dSYM/
 *.app/
 
+dist/
 build/
 libs/
 obj/

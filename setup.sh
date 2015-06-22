@@ -22,6 +22,8 @@ fi
 
 # ---
 
+rm -rf build
+
 echo "UNPACKING $BOOST_ZIP"
 unzip $BOOST_ZIP
 
@@ -32,7 +34,4 @@ fi
 
 # ---
 
-rm -rf dist
-mv $BOOST_DIR dist
-
-ln -s dist include
+mv $BOOST_DIR build
