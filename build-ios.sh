@@ -1,9 +1,10 @@
 #!/bin/sh
 
 SRC_DIR="build"
+SRC_PATH="$(pwd)/$SRC_DIR"
 
-if [ ! -d "$SRC_DIR" ]; then
-  echo "$SRC_DIR DIRECTORY NOT FOUND!"
+if [ ! -d "$SRC_PATH" ]; then
+  echo "SOURCE NOT FOUND!"
   exit 1
 fi
 
@@ -19,7 +20,6 @@ INSTALL_PATH_1="$(pwd)/dist/$PLATFORM_1"
 PLATFORM_2="ios-sim"
 INSTALL_PATH_2="$(pwd)/dist/$PLATFORM_2"
 
-SRC_PATH="$(pwd)/$SRC_DIR"
 cd "$SRC_PATH"
 
 rm bjam

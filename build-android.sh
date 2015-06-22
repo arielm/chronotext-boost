@@ -6,9 +6,10 @@ if [ -z "$NDK_PATH" ]; then
 fi
 
 SRC_DIR="build"
+SRC_PATH="$(pwd)/$SRC_DIR"
 
 if [ ! -d "$SRC_DIR" ]; then
-  echo "$SRC_DIR DIRECTORY NOT FOUND!"
+  echo "SOURCE NOT FOUND!"
   exit 1
 fi
 
@@ -25,7 +26,6 @@ ANDROID_API=android-16
 PLATFORM="android"
 INSTALL_PATH="$(pwd)/dist/$PLATFORM"
 
-SRC_PATH="$(pwd)/$SRC_DIR"
 cd "$SRC_PATH"
 
 rm bjam

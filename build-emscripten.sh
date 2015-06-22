@@ -6,9 +6,10 @@ if [ -z "$EMSCRIPTEN_PATH" ]; then
 fi
 
 SRC_DIR="build"
+SRC_PATH="$(pwd)/$SRC_DIR"
 
 if [ ! -d "$SRC_DIR" ]; then
-  echo "$SRC_DIR DIRECTORY NOT FOUND!"
+  echo "SOURCE NOT FOUND!"
   exit 1
 fi
 
@@ -21,7 +22,6 @@ LIBRARIES="--with-system --with-filesystem --with-iostreams"
 PLATFORM="emscripten"
 INSTALL_PATH="$(pwd)/dist/$PLATFORM"
 
-SRC_PATH="$(pwd)/$SRC_DIR"
 cd "$SRC_PATH"
 
 rm bjam
