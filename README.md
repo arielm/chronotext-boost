@@ -22,21 +22,4 @@ This will download and unpack a version of Boost adapted to the relevant platfor
 ./build-android.sh
 ./build-emscripten.sh
 ```
-This will build static libs for the relevant platforms, and package everything as follows:
-```
-|--include
-|  |--boost
-|--lib
-   |--osx
-   |  |--libboost_system.a
-   |  |--...
-   |--ios
-   |  |--libboost_system.a
-   |  |--...
-   |--android
-   |  |--libboost_system.a
-   |  |--...
-   |--emscripten
-      |--libboost_system.a
-      |--...
-```
+This will build and package static libs for the relevant platforms.
