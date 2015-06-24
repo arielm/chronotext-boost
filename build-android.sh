@@ -1,16 +1,22 @@
 #!/bin/sh
 
+PLATFORM="android"
+
+SRC_DIR="build/src"
+INSTALL_DIR="dist/$PLATFORM"
+
+SRC_PATH="$(pwd)/$SRC_DIR"
+INSTALL_PATH="$(pwd)/$INSTALL_DIR"
+JAM_CONFIG_PATH="$(pwd)/configs/$PLATFORM.jam"
+
+if [ ! -d "$SRC_PATH" ]; then
+  echo "SOURCE NOT FOUND!"
+  exit 1
+fi
+
 if [ -z "$NDK_PATH" ]; then
   echo "NDK_PATH MUST BE DEFINED!"
   exit -1  
-fi
-
-SRC_DIR="build"
-SRC_PATH="$(pwd)/$SRC_DIR"
-
-if [ ! -d "$SRC_DIR" ]; then
-  echo "SOURCE NOT FOUND!"
-  exit 1
 fi
 
 # ---
@@ -22,9 +28,6 @@ ANDROID_ABI=armeabi-v7a
 ANDROID_API=android-16
 
 # ---
-
-PLATFORM="android"
-INSTALL_PATH="$(pwd)/dist/$PLATFORM"
 
 cd "$SRC_PATH"
 
@@ -41,7 +44,7 @@ if [ $? != 0 ]; then
   exit 1
 fi
 
-cat ../configs/android.jam >> project-config.jam
+cat "$JAM_CONFIG_PATH" >> project-config.jam
 
 # ---
 
@@ -73,6 +76,8 @@ if [ $? != 0 ]; then
   echo "ERROR: b2 FAILED!"
   exit 1
 fi
+
+# ---
 
 cd "$INSTALL_PATH"
 ln -s "$SRC_PATH" include

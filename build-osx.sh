@@ -1,9 +1,15 @@
 #!/bin/sh
 
-SRC_DIR="build"
-SRC_PATH="$(pwd)/$SRC_DIR"
+PLATFORM="osx"
 
-if [ ! -d "$SRC_DIR" ]; then
+SRC_DIR="build/src"
+INSTALL_DIR="dist/$PLATFORM"
+
+SRC_PATH="$(pwd)/$SRC_DIR"
+INSTALL_PATH="$(pwd)/$INSTALL_DIR"
+JAM_CONFIG_PATH="$(pwd)/configs/$PLATFORM.jam"
+
+if [ ! -d "$SRC_PATH" ]; then
   echo "SOURCE NOT FOUND!"
   exit 1
 fi
@@ -13,9 +19,6 @@ fi
 LIBRARIES="--with-system --with-filesystem --with-iostreams"
 
 # ---
-
-PLATFORM="osx"
-INSTALL_PATH="$(pwd)/dist/$PLATFORM"
 
 cd "$SRC_PATH"
 
@@ -32,7 +35,7 @@ if [ $? != 0 ]; then
   exit 1
 fi
 
-cat ../configs/osx.jam >> project-config.jam
+cat "$JAM_CONFIG_PATH" >> project-config.jam
 
 # ---
 
@@ -53,6 +56,8 @@ if [ $? != 0 ]; then
   echo "ERROR: b2 FAILED!"
   exit 1
 fi
+
+# ---
 
 cd "$INSTALL_PATH"
 ln -s "$SRC_PATH" include

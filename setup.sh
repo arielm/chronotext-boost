@@ -1,20 +1,20 @@
 #!/bin/sh
 
-BOOST_VER1=1
-BOOST_VER2=58
-BOOST_VER3=0
-
-BOOST_DIR="android-vendor-boost-${BOOST_VER1}-${BOOST_VER2}-${BOOST_VER3}-master"
-BOOST_ZIP="master.zip"
-BOOST_SRC="https://github.com/arielm/android-vendor-boost-${BOOST_VER1}-${BOOST_VER2}-${BOOST_VER3}/archive/${BOOST_ZIP}"
+ARCHIVE_ZIP="master.zip"
+ARCHIVE_SRC="https://github.com/arielm/android-vendor-boost-1-58-0/archive/${ARCHIVE_ZIP}"
+ARCHIVE_DIR="android-vendor-boost-1-58-0-master"
 
 # ---
 
-if [ ! -f $BOOST_ZIP ]; then
-  echo "DOWNLOADING $BOOST_SRC"
-  curl -L -O $BOOST_SRC
+rm -rf build
+mkdir -p build
+cd build
 
-  if [ $? != 0 ] || [ ! -f $BOOST_ZIP ]; then
+if [ ! -f $ARCHIVE_ZIP ]; then
+  echo "DOWNLOADING $ARCHIVE_SRC"
+  curl -L -O $ARCHIVE_SRC
+
+  if [ $? != 0 ] || [ ! -f $ARCHIVE_ZIP ]; then
     echo "DOWNLOADING FAILED!"
     exit 1
   fi
@@ -22,16 +22,17 @@ fi
 
 # ---
 
-rm -rf build
+echo "UNPACKING $ARCHIVE_ZIP..."
+unzip -q $ARCHIVE_ZIP
 
-echo "UNPACKING $BOOST_ZIP"
-unzip $BOOST_ZIP
-
-if [ $? != 0 ] || [ ! -d $BOOST_DIR ]; then
+if [ $? != 0 ] || [ ! -d $ARCHIVE_DIR ]; then
   echo "UNPACKING FAILED!"
   exit 1
 fi
 
+mv $ARCHIVE_DIR src
+
 # ---
 
-mv $BOOST_DIR build
+cd ..
+export BOOST_PATH="$(pwd)"

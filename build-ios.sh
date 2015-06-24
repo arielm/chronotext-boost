@@ -1,7 +1,13 @@
 #!/bin/sh
 
-SRC_DIR="build"
+PLATFORM="ios"
+
+SRC_DIR="build/src"
+INSTALL_DIR="dist/$PLATFORM"
+
 SRC_PATH="$(pwd)/$SRC_DIR"
+INSTALL_PATH="$(pwd)/$INSTALL_DIR"
+JAM_CONFIG_PATH="$(pwd)/configs/$PLATFORM.jam"
 
 if [ ! -d "$SRC_PATH" ]; then
   echo "SOURCE NOT FOUND!"
@@ -13,12 +19,6 @@ fi
 LIBRARIES="--with-system --with-filesystem --with-iostreams"
 
 # ---
-
-PLATFORM_1="ios"
-INSTALL_PATH_1="$(pwd)/dist/$PLATFORM_1"
-
-PLATFORM_2="ios-sim"
-INSTALL_PATH_2="$(pwd)/dist/$PLATFORM_2"
 
 cd "$SRC_PATH"
 
@@ -35,16 +35,13 @@ if [ $? != 0 ]; then
   exit 1
 fi
 
-cat ../configs/ios.jam >> project-config.jam
+cat "$JAM_CONFIG_PATH" >> project-config.jam
 
 # ---
 
-rm -rf "$INSTALL_PATH_1"
-rm -rf "$INSTALL_PATH_2"
+rm -rf "$INSTALL_PATH"
 
 HOST_NUM_CPUS=$(sysctl hw.ncpu | awk '{print $2}')
-
-# --- IPHONE-OS ---
 
 ./b2 -q -j$HOST_NUM_CPUS        \
   toolset=clang-iphoneos        \
@@ -52,23 +49,7 @@ HOST_NUM_CPUS=$(sysctl hw.ncpu | awk '{print $2}')
   variant=release               \
   $LIBRARIES                    \
   stage                         \
-  --stagedir="$INSTALL_PATH_1"  \
-  2>&1
-
-if [ $? != 0 ]; then
-  echo "ERROR: b2 FAILED!"
-  exit 1
-fi
-
-# --- IPHONE-SIMULATOR ---
-
-./b2 -q -j$HOST_NUM_CPUS        \
-  toolset=clang-iphonesimulator \
-  link=static                   \
-  variant=release               \
-  $LIBRARIES                    \
-  stage                         \
-  --stagedir="$INSTALL_PATH_2"  \
+  --stagedir="$INSTALL_PATH"    \
   2>&1
 
 if [ $? != 0 ]; then
@@ -78,8 +59,5 @@ fi
 
 # ---
 
-cd "$INSTALL_PATH_1"
-ln -s "$SRC_PATH" include
-
-cd "$INSTALL_PATH_2"
+cd "$INSTALL_PATH"
 ln -s "$SRC_PATH" include
