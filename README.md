@@ -11,7 +11,7 @@ More info in the [Wiki](https://github.com/arielm/chronotext-boost/wiki)...
 ## Setup...
 ```
 cd chronotext-boost
-./setup.sh
+source setup.sh
 ```
 This will download and unpack a version of Boost adapted to the relevant platforms.
 
