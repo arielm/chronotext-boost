@@ -1,6 +1,6 @@
 #!/bin/sh
 
-PLATFORM="ios"
+PLATFORM="mxe"
 
 SRC_DIR="build/src"
 INSTALL_DIR="dist/$PLATFORM"
@@ -43,13 +43,20 @@ rm -rf "$INSTALL_PATH"
 
 HOST_NCORES=$(shell nproc 2>/dev/null || sysctl -n hw.ncpu 2>/dev/null || echo 1)
 
-./b2 -q -j$HOST_NCORES          \
-  toolset=clang-iphoneos        \
-  link=static                   \
-  variant=release               \
-  $LIBRARIES                    \
-  stage                         \
-  --stagedir="$INSTALL_PATH"    \
+export TARGET=i686-w64-mingw32.static
+export NO_ZLIB=0  # REQUIRED MXE PACKAGE: zlib
+export NO_BZIP2=0 # REQUIRED MXE PACKAGE: bzip2
+
+./b2 -q -j$HOST_NCORES       \
+  threadapi=win32            \
+  architecture=x86           \
+  target-os=windows          \
+  toolset=gcc-mxe            \
+  link=static                \
+  variant=release            \
+  $LIBRARIES                 \
+  stage                      \
+  --stagedir="$INSTALL_PATH" \
   2>&1
 
 if [ $? != 0 ]; then

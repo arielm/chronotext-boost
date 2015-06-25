@@ -1,0 +1,16 @@
+#
+# REFERENCE: https://github.com/mxe/mxe/blob/master/src/boost.mk
+#
+
+import os ;
+
+local TARGET = [ os.environ TARGET ] ;
+
+using gcc : mxe
+:
+$(TARGET)-g++
+:
+<rc>$(TARGET)-windres
+<archiver>$(TARGET)-ar
+<ranlib>$(TARGET)-ranlib
+;

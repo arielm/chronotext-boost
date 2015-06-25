@@ -6,13 +6,18 @@
 # 3) Android NDK: Beginner's Guide - Second Edition | By Sylvain Ratabouil | Page 409
 #
 
+import os ;
+
+local NDK_PATH = [ os.environ NDK_PATH ] ;
+local GCC_VERSION = [ os.environ GCC_VERSION ] ;
+local ANDROID_API = [ os.environ ANDROID_API ] ;
+
 using gcc : android
 :
-arm-linux-androideabi-g++
+arm-linux-androideabi-g++ --sysroot="$(NDK_PATH)/platforms/$(ANDROID_API)/arch-arm"
 :
-<compileflags>-I"$NDK_PATH/platforms/$ANDROID_API/arch-arm/usr/include"
-<compileflags>-I"$NDK_PATH/sources/cxx-stl/gnu-libstdc++/$GCC_VERSION/include"
-<compileflags>-I"$NDK_PATH/sources/cxx-stl/gnu-libstdc++/$GCC_VERSION/libs/armeabi/include"
+<compileflags>-I"$(NDK_PATH)/sources/cxx-stl/gnu-libstdc++/$(GCC_VERSION)/include"
+<compileflags>-I"$(NDK_PATH)/sources/cxx-stl/gnu-libstdc++/$(GCC_VERSION)/libs/armeabi/include"
 
 <compileflags>-fvisibility=hidden
 <compileflags>-fvisibility-inlines-hidden

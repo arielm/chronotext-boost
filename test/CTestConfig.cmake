@@ -30,6 +30,10 @@ elseif (PLATFORM STREQUAL emscripten)
   set(CTEST_CMAKE_GENERATOR "Ninja")
   set(TOOLCHAIN_FILE emscripten.cmake)
 
+elseif (PLATFORM STREQUAL mxe)
+  set(CTEST_CMAKE_GENERATOR "Ninja")
+  set(TOOLCHAIN_FILE mxe.cmake)
+
 else()
   message(FATAL_ERROR "UNSUPPORTED PLATFORM!")
 endif()

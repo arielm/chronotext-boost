@@ -30,7 +30,7 @@ cd "$SRC_PATH"
 rm bjam
 rm b2
 rm project-config.jam
-rm boostsrap.log
+rm bootstrap.log
 rm -rf bin.v2
 
 ./bootstrap.sh 2>&1
@@ -46,12 +46,12 @@ cat "$JAM_CONFIG_PATH" >> project-config.jam
 
 rm -rf "$INSTALL_PATH"
 
-HOST_NUM_CPUS=$(sysctl hw.ncpu | awk '{print $2}')
+HOST_NCORES=$(shell nproc 2>/dev/null || sysctl -n hw.ncpu 2>/dev/null || echo 1)
 
-export PATH="$EMSCRIPTEN_PATH":"$PATH"
+export PATH="$EMSCRIPTEN_PATH:$PATH"
 export NO_BZIP2=1
 
-./b2 -q -j$HOST_NUM_CPUS     \
+./b2 -q -j$HOST_NCORES       \
   toolset=clang-emscripten   \
   link=static                \
   variant=release            \
