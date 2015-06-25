@@ -30,6 +30,9 @@ TEST(TestBoost, TestLexicalCast)
   EXPECT_EQ(33.33, boost::lexical_cast<double>("33.33"));
 }
 
+/*
+ * TODO: ADAPT FOR WINDOWS
+ */
 TEST(TestBoost, TestFileSystem)
 {
   fs::path documents("/Users/arielm/Documents");
@@ -74,7 +77,7 @@ TEST(TestBoost, TestFilteringStream)
     in.read(reinterpret_cast<char*>(&ui), sizeof(ui));
     EXPECT_EQ(99, ui);
     
-    EXPECT_EQ(16, in.tellg());
+    EXPECT_EQ(16, in.tellg()); // TODO: FIND-OUT WHY IT FAILS ON iPAD 1 (iOS 5.1)
 
     // ---
 

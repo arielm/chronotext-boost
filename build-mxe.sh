@@ -43,9 +43,9 @@ rm -rf "$INSTALL_PATH"
 
 HOST_NCORES=$(shell nproc 2>/dev/null || sysctl -n hw.ncpu 2>/dev/null || echo 1)
 
-export TARGET=i686-w64-mingw32.static
+export MXE_TARGET=i686-w64-mingw32.static
 export NO_ZLIB=0  # REQUIRED MXE PACKAGE: zlib
-export NO_BZIP2=0 # REQUIRED MXE PACKAGE: bzip2
+export NO_BZIP2=1
 
 ./b2 -q -j$HOST_NCORES       \
   threadapi=win32            \

@@ -4,13 +4,13 @@
 
 import os ;
 
-local TARGET = [ os.environ TARGET ] ;
+local MXE_TARGET = [ os.environ MXE_TARGET ] ;
 
 using gcc : mxe
 :
-$(TARGET)-g++
+$(MXE_TARGET)-g++
 :
-<rc>$(TARGET)-windres
-<archiver>$(TARGET)-ar
-<ranlib>$(TARGET)-ranlib
+<rc>$(MXE_TARGET)-windres
+<archiver>$(MXE_TARGET)-ar
+<ranlib>$(MXE_TARGET)-ranlib
 ;
