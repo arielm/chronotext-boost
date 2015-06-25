@@ -5,7 +5,8 @@ Provides support for Boost 1.58 on:
 - iOS (armv7, arm64, i386, x86_64)
 - Android (armeabi-v7a)
 - Emscripten
-
+- Windows (via [boot2docker](http://boot2docker.io) and [mxe](http://mxe.cc))
+ 
 More info in the [Wiki](https://github.com/arielm/chronotext-boost/wiki)...
 
 ## Setup...
@@ -21,5 +22,6 @@ This will download and unpack a version of Boost adapted to the relevant platfor
 ./build-ios.sh
 ./build-android.sh
 ./build-emscripten.sh
+./build-mxe.sh
 ```
 This will build and package static libs for the relevant platforms.
