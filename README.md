@@ -5,8 +5,8 @@ Provides support for Boost 1.58 on:
 - iOS (armv7, arm64, i386, x86_64)
 - Android (armeabi-v7a)
 - Emscripten
-- Windows (via [boot2docker](http://boot2docker.io) and [mxe](http://mxe.cc))
- 
+- Windows/MXE (i686)
+
 More info in the [Wiki](https://github.com/arielm/chronotext-boost/wiki)...
 
 ## Setup...
