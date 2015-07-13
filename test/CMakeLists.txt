@@ -20,4 +20,4 @@ target_link_libraries(TestBoost
 )
 
 enable_testing()
-add_test(NAME TestBoost COMMAND run)
+add_test(NAME AllTests COMMAND ./run.sh)
